@@ -24,7 +24,7 @@ def thankyou():
 
 @app.route("/api/attractions")
 def attractions():
-    try:
+    # try:
         con = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -37,11 +37,13 @@ def attractions():
         attraction_list = []
         keyword = request.args.get('keyword')
         page = int(request.args.get('page', 0))
-
+        
         if keyword:
             query = "SELECT * FROM attractions WHERE (name LIKE %s ) OR (mrt = %s )"
             attraction_list.append('%' + keyword + '%')
             attraction_list.append(keyword)
+        else:
+            query = "SELECT * FROM attractions"
 
         query += " ORDER BY id LIMIT %s, 12"
         attraction_list.append(page * 12)
@@ -50,7 +52,8 @@ def attractions():
 
         data = cursor.fetchall()
 
-        next_page_query = "SELECT COUNT(*) FROM attractions WHERE (name LIKE %s) OR (mrt = %s ) LIMIT %s, 12"
+        next_page_query = "SELECT COUNT(*) FROM attractions LIMIT %s, 12"
+        attraction_list = [page * 12] 
         cursor.execute(next_page_query, attraction_list)
         next_page_data = cursor.fetchall()
 
@@ -88,12 +91,12 @@ def attractions():
 
         return json.dumps(response_data, ensure_ascii=False).encode('utf8')
 
-    except Exception as e:
-        error_response = {
-            "error": True,
-            "message": "請按照情境提供對應的錯誤訊息"
-        }
-        return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 500 
+    # except Exception as e:
+    #     error_response = {
+    #         "error": True,
+    #         "message": "請按照情境提供對應的錯誤訊息"
+    #     }
+    #     return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 500 
 
 
 @app.route("/api/attraction/<int:attractionId>")
@@ -182,6 +185,6 @@ def mrts():
             "message": "請按照情境提供對應的錯誤訊息"
         }
         return json.dumps(mrt_error_response, ensure_ascii=False).encode('utf8'), 500 
-          
+
 
 app.run(host="0.0.0.0", port=3000)
