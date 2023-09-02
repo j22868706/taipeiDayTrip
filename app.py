@@ -25,7 +25,6 @@ def thankyou():
 @app.route("/api/attractions")
 def attractions():
     try:
-
         con = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -40,7 +39,7 @@ def attractions():
         page = int(request.args.get('page', 0))
 
         if keyword:
-            query = "SELECT * FROM attractions WHERE (name LIKE %s COLLATE utf8mb4_bin) OR (mrt = %s COLLATE utf8mb4_bin)"
+            query = "SELECT * FROM attractions WHERE (name LIKE %s ) OR (mrt = %s )"
             attraction_list.append('%' + keyword + '%')
             attraction_list.append(keyword)
 
@@ -55,11 +54,14 @@ def attractions():
         cursor.execute(next_page_query, attraction_list)
         next_page_data = cursor.fetchall()
 
-        total_results = next_page_data[0][0]  
+        if next_page_data:
+            total_results = next_page_data[0][0]
+        else: 
+             total_results = 0  
 
         response_data = OrderedDict()
         response_data["nextPage"] = page + 1 if len(data) >= 12 else None  
-        response_data["data"] = []
+        response_data["data"] = None if len(data) == 0 else []
 
         for row in data:
             attraction = OrderedDict()
