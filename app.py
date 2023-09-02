@@ -2,10 +2,11 @@ from flask import *
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False
 app.config["TEMPLATES_AUTO_RELOAD"]=True
+
 import mysql.connector
 import json
-app.debug = True
 from collections import OrderedDict
+app.debug = True
 
 # Pages
 @app.route("/")
@@ -24,7 +25,7 @@ def thankyou():
 
 @app.route("/api/attractions")
 def attractions():
-    # try:
+    try:
         con = mysql.connector.connect(
             host="localhost",
             user="root",
@@ -91,12 +92,12 @@ def attractions():
 
         return json.dumps(response_data, ensure_ascii=False).encode('utf8')
 
-    # except Exception as e:
-    #     error_response = {
-    #         "error": True,
-    #         "message": "請按照情境提供對應的錯誤訊息"
-    #     }
-    #     return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 500 
+    except Exception as e:
+        error_response = {
+            "error": True,
+            "message": "請按照情境提供對應的錯誤訊息"
+        }
+        return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 500 
 
 
 @app.route("/api/attraction/<int:attractionId>")
