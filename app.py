@@ -124,8 +124,7 @@ def get_attraction(attractionId):
             }
             return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 400  
         
-        attraction_id = []
-        attraction_id_response = {"data": attraction_id}
+        attraction_id_response = {"data": {}}
 
         attraction = {
             "id": data[0][0],
@@ -145,7 +144,7 @@ def get_attraction(attractionId):
         img_data = cursor.fetchall()
 
         attraction["images"] = [img[0] for img in img_data]
-        attraction_id.append(attraction[0])
+        attraction_id_response["data"] = attraction
 
         con.close()
 
