@@ -185,6 +185,7 @@ def mrts():
             "error": True,
             "message": "請按照情境提供對應的錯誤訊息"
         }
+        print("Error:", e)
         return json.dumps(mrt_error_response, ensure_ascii=False).encode('utf8'), 500 
 
 
