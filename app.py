@@ -27,7 +27,7 @@ def thankyou():
 def attractions():
     try:
         con = mysql.connector.connect(
-            host="localhost",
+            host="44.196.136.245",
             user="root",
             password="Montegomery@3303",
             database="taipeiDayTrip"
@@ -105,7 +105,7 @@ def get_attraction(attractionId):
     print(attractionId)
     try:
         con = mysql.connector.connect(
-            host="localhost",
+            host="44.196.136.245",
             user="root",
             password="Montegomery@3303",
             database="taipeiDayTrip"
@@ -158,7 +158,7 @@ def get_attraction(attractionId):
 def mrts():
     try:    
         con = mysql.connector.connect(
-            host="localhost",
+            host="44.196.136.245",
             user="root",
             password="Montegomery@3303",
             database="taipeiDayTrip"
