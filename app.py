@@ -124,6 +124,9 @@ def get_attraction(attractionId):
             }
             return json.dumps(error_response, ensure_ascii=False).encode('utf8'), 400  
         
+        attraction_id = []
+        attraction_id_response = {"data": attraction_id}
+
         attraction = {
             "id": data[0][0],
             "name": data[0][2],
@@ -142,10 +145,11 @@ def get_attraction(attractionId):
         img_data = cursor.fetchall()
 
         attraction["images"] = [img[0] for img in img_data]
+        attraction_id.append(attraction[0])
 
         con.close()
 
-        return json.dumps(attraction, ensure_ascii=False).encode('utf8')
+        return json.dumps(attraction_id_response, ensure_ascii=False).encode('utf8')
 
     except Exception as e:
         error_response = {
