@@ -208,35 +208,53 @@ document.addEventListener("DOMContentLoaded", function () {
   const searchButton = document.getElementById("search-button");
   const searchInput = document.getElementById("search-input");
   const attractionsContainer = document.getElementById("attractions-container");
-  const nextPageButton = document.getElementById("next-page-button"); // Add a button for loading the next page
-  let currentPage = 0; // Track the current page
 
-  // Function to fetch attractions
-  function fetchAttractions(page) {
+  searchButton.addEventListener("click", function () {
       const keyword = searchInput.value;
 
-      fetch(`/api/attractions?keyword=${keyword}&page=${page}`)
+      fetch(`/api/attractions?keyword=${keyword}`)
           .then(response => response.json())
           .then(data => {
+              attractionsContainer.innerHTML = ""; // Clear previous results
+
               if (data.error) {
                   attractionsContainer.innerHTML = `An error occurred: ${data.message}`;
-                  return;
-              }
-
-              if (data.data && data.data.length > 0) {
+              } else if (data.data && data.data.length > 0) {
                   data.data.forEach(attraction => {
-                      // Create attraction elements as you did before
-                      
+                      const attractionDiv = document.createElement('div');
+                      attractionDiv.classList.add('attraction');
+
+                      // Verify image availability
+                      if (attraction.images && attraction.images.length > 0) {
+                          const imgElement = document.createElement('img');
+                          imgElement.src = attraction.images[0]; // Assuming the first image is the main image
+                          imgElement.alt = attraction.name;
+                          imgElement.classList.add('attraction-img');
+                          attractionDiv.appendChild(imgElement);
+                      }
+
+                      const textElement1 = document.createElement('div');
+                      textElement1.textContent = attraction.name;
+                      textElement1.classList.add('opacity', 'attraction-name');
+                      attractionDiv.appendChild(textElement1);
+
+                      const imageBottom = document.createElement('div');
+                      imageBottom.classList.add('image-bottom');
+                      attractionDiv.appendChild(imageBottom);
+            
+                      const textElement2 = document.createElement('div');
+                      textElement2.textContent = attraction.mrt;
+                      textElement2.classList.add('mrt-name');
+                      imageBottom.appendChild(textElement2);
+            
+                      const textElement3 = document.createElement('div');
+                      textElement3.textContent = attraction.category;
+                      textElement3.classList.add('category');
+                      imageBottom.appendChild(textElement3);
+
+
                       attractionsContainer.appendChild(attractionDiv);
                   });
-
-                  // Check if there's a next page
-                  if (data.nextPage !== null) {
-                      currentPage++; // Increment the current page
-                      nextPageButton.style.display = "block"; // Show the "Load More" button
-                  } else {
-                      nextPageButton.style.display = "none"; // Hide the button if there's no next page
-                  }
               } else {
                   attractionsContainer.innerHTML = "No results found.";
               }
@@ -245,18 +263,5 @@ document.addEventListener("DOMContentLoaded", function () {
               console.error("Error:", error);
               attractionsContainer.innerHTML = "An error occurred while fetching data.";
           });
-  }
-
-  // Event listener for the "Search" button
-  searchButton.addEventListener("click", function () {
-      attractionsContainer.innerHTML = ""; // Clear previous results
-      currentPage = 0; // Reset the current page
-      fetchAttractions(currentPage); // Fetch the first page
-  });
-
-  // Event listener for the "Load More" button
-  nextPageButton.addEventListener("click", function () {
-      fetchAttractions(currentPage + 1); // Fetch the next page
   });
 });
-
