@@ -19,6 +19,7 @@ function fetchMrts() {
 }
 
 fetchMrts();
+
 function leftScroll() {
   const listContent = document.getElementById('mrt-stations');
   const scrollAmount = listContent.offsetWidth; // 使用列表元素的宽度作为滚动距离
@@ -204,6 +205,7 @@ window.onload = function () {
   fetchAttractions(); // 第一次加载数据
 };
 
+
 document.addEventListener("DOMContentLoaded", function () {
   const searchButton = document.getElementById("search-button");
   const searchInput = document.getElementById("search-input");
@@ -265,3 +267,47 @@ document.addEventListener("DOMContentLoaded", function () {
           });
   });
 });
+          .then(response => response.json())
+          .then(data => {
+                            if (data.error) {
+                  attractionsContainer.innerHTML = `An error occurred: ${data.message}`;
+              return;
+              }
+
+              if (data.data && data.data.length > 0) {
+                  data.data.forEach(attraction => {
+                      // Create attraction elements as you did before
+
+                      attractionsContainer.appendChild(attractionDiv);
+                  });
+
+                  // Check if there's a next page
+                  if (data.nextPage !== null) {
+                      currentPage++; // Increment the current page
+                      nextPageButton.style.display = "block"; // Show the "Load More" button
+                  } else {
+                      nextPageButton.style.display = "none"; // Hide the button if there's no next page
+                  }
+              } else {
+                  attractionsContainer.innerHTML = "No results found.";
+              }
+          })
+          .catch(error => {
+              console.error("Error:", error);
+              attractionsContainer.innerHTML = "An error occurred while fetching data.";
+          });
+}
+
+  // Event listener for the "Search" button
+  searchButton.addEventListener("click", function () {
+      attractionsContainer.innerHTML = ""; // Clear previous results
+      currentPage = 0; // Reset the current page
+      fetchAttractions(currentPage); // Fetch the first page
+  });
+
+  // Event listener for the "Load More" button
+  nextPageButton.addEventListener("click", function () {
+      fetchAttractions(currentPage + 1); // Fetch the next page
+  });
+});
+
