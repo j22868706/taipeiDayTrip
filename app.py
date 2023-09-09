@@ -29,7 +29,7 @@ def attractions():
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="root1234",
             database="taipeiDayTrip"
         )
 
@@ -107,7 +107,7 @@ def get_attraction(attractionId):
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="root1234",
             database="taipeiDayTrip"
         )
 
@@ -163,7 +163,7 @@ def mrts():
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="root1234",
             database="taipeiDayTrip"
         )
 
@@ -190,9 +190,5 @@ def mrts():
         }
         print("Error:", e)
         return json.dumps(mrt_error_response, ensure_ascii=False).encode('utf8'), 500 
-
-@app.route("/test")
-def test(): 
-	return render_template("attracationstest.html")
 
 app.run(host="0.0.0.0", port=3000)

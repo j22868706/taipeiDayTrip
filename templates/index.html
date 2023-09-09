@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>台北一日遊</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/attractionLayout.css') }}">
+        <script src="{{ url_for('static', filename= 'javaScript/attractions.js')}}"></script>
+    </head>
+    <body>
+        <header class="header">
+        <nav>
+            <ul class='nav_bar'>
+                <li class='logo'>台北一日遊</li>
+                <span class="menu">
+                    <li><a href="">預定行程</a></li>
+                    <li><a href="">登入/註冊</a></li>
+                </span>
+            </ul>
+        </nav>
+        </header>
+            <div class="searchBackground" style= "background-image: url('{{ url_for('static', filename='images/welcome.png') }}');">
+                <div class="searchContent" >
+                    <div class="searchBarTitle">輕鬆享受台北一日悠閒</div>
+                    <div class="searchBarText">探索每個角落，體驗城市的深度旅遊行程</div>
+                    <div class="searchContainer">
+                        <input class="searchSpace" type="text" placeholder="輸入景點名稱查詢" id="search-input">
+                        <button class="searchButton" id="search-button"><img src="{{ url_for('static', filename= 'images/icon_search.png')}}"></button>
+                    </div>
+                </div>
+            </div>
+        <main style="margin-top: 40px;">    
+            <div class="display-flex">
+                <div class="list-bar">
+                    <div class="arrow-flex">
+                        <button class="left-arrow" id="scrollLeft" onclick="leftScroll();"><img src="{{ url_for('static', filename= 'images/arrowLeftArrowStatesDefault.png')}}"></button>
+                    </div>
+                    <ul class="list-content" id='mrt-stations'></ul>
+                    <div class="arrow-flex">
+                        <button class="right-arrow" id="scrollRight" onclick="rightScroll();" ><img src="{{ url_for('static', filename= 'images/arrowRightStatesDefault.png')}}"></button>
+                    </div>
+                </div>
+            </div>        
+            <div class="display-flexr">
+                <div class="attraction-box" id="attractions-container"></div>
+                    <div class="attraction" ></div>
+            </div>
+        </main static="margin-top: 40px;">
+        <footer class="footer">
+            <div class="footer_text">COPYRIGHT &copy; 2021 台北一日遊</div>
+        </footer>
+    </body>
+</html>
