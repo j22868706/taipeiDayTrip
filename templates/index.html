@@ -32,11 +32,11 @@
         <main style="margin-top: 40px;">    
             <div class="display-flex">
                 <div class="list-bar">
-                    <div class="arrow-flex">
+                    <div class="arrow-flex-left">
                         <button class="left-arrow" id="scrollLeft" onclick="leftScroll();"><img src="{{ url_for('static', filename= 'images/arrowLeftArrowStatesDefault.png')}}"></button>
                     </div>
                     <ul class="list-content" id='mrt-stations'></ul>
-                    <div class="arrow-flex">
+                    <div class="arrow-flex-right">
                         <button class="right-arrow" id="scrollRight" onclick="rightScroll();" ><img src="{{ url_for('static', filename= 'images/arrowRightStatesDefault.png')}}"></button>
                     </div>
                 </div>

@@ -258,7 +258,7 @@ function setupAttractionSearch() {
       imageBottom.appendChild(textElement3);
 
       attractionsContainer.appendChild(attractionDiv);
-    }
+    } 
 
     searchButton.addEventListener("click", initializePage);
   });
