@@ -187,7 +187,7 @@ function setupAttractionSearch() {
           .then((response) => response.json())
           .then((data) => {
             if (data.error) {
-              attractionsContainer.innerHTML = `An error occurred: ${data.message}`;
+              attractionsContainer.innerHTML = `An error occurred: "查無資料"`;
             } else if (data.data && data.data.length > 0) {
               data.data.forEach((attraction) => {
                 appendDataToPage(attraction);
