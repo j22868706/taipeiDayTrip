@@ -29,7 +29,7 @@ def attractions():
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="Montgomery@3303",
             database="taipeiDayTrip"
         )
 
@@ -107,7 +107,7 @@ def get_attraction(attractionId):
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="Montgomery@3303",
             database="taipeiDayTrip"
         )
 
@@ -163,7 +163,7 @@ def mrts():
         con = mysql.connector.connect(
             host="localhost",
             user="root",
-            password="Montegomery@3303",
+            password="Montgomery@3303",
             database="taipeiDayTrip"
         )
 
