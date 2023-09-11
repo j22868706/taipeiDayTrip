@@ -191,5 +191,4 @@ def mrts():
         print("Error:", e)
         return json.dumps(mrt_error_response, ensure_ascii=False).encode('utf8'), 500 
 
-
 app.run(host="0.0.0.0", port=3000)
