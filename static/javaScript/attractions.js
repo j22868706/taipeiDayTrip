@@ -38,52 +38,6 @@ function rightScroll() {
   listContent.scrollLeft += scrollAmount; 
 }
 
-function fetchAttractions() {
-  fetch('/api/attractions')
-    .then((response) => response.json())
-    .then((data) => {
-      const attractionsContainer = document.getElementById('attractions-container');
-      
-      if (data.data && data.data.length > 0) {
-        data.data.forEach((attraction) => {
-          const attractionDiv = document.createElement('div');
-          attractionDiv.classList.add('attraction');
-
-          const imgElement = document.createElement('img');
-          imgElement.src = attraction.images[0];
-          imgElement.alt = attraction.name;
-          imgElement.classList.add('attraction-img');
-          attractionDiv.appendChild(imgElement);
-
-          const textElement1 = document.createElement('div');
-          textElement1.textContent = attraction.name;
-          textElement1.classList.add('opacity', 'attraction-name');
-          attractionDiv.appendChild(textElement1);
-
-          const imageBottom = document.createElement('div');
-          imageBottom.classList.add('image-bottom');
-          attractionDiv.appendChild(imageBottom);
-
-          const textElement2 = document.createElement('div');
-          textElement2.textContent = attraction.mrt;
-          textElement2.classList.add('mrt-name');
-          imageBottom.appendChild(textElement2);
-
-          const textElement3 = document.createElement('div');
-          textElement3.textContent = attraction.category;
-          textElement3.classList.add('category');
-          imageBottom.appendChild(textElement3);
-
-          attractionsContainer.appendChild(attractionDiv);
-        });
-      }
-      nextPage = data.nextPage;
-    })
-    .catch((error) => {
-      console.error('獲取景點失敗：', error);
-    });
-}
-
 function setupAttractionSearch() {
   document.addEventListener("DOMContentLoaded", function () {
     const searchButton = document.getElementById("search-button");
@@ -179,7 +133,7 @@ function appendDataToPage(attraction) {
 }
 
 window.onload = function () {
-  fetchAttractions();
+  initializePage();
   setupScrollListener(); 
 }
 
