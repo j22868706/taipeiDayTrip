@@ -22,13 +22,9 @@
         <div class="info-flex">
             <section>
                 <div class="img-box" id="imageGallery" src="">
-                    <div class="image-gallery-circle" id="dotContainer">
-                        <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
-                        <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
-                        <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
-                    </div>
-                        <img id="leftArrow" class="left-arrow" src="{{ url_for('static', filename='images/arrowLeftStatesHovered.png') }}" onclick="leftArrow();">
-                        <img id="rightArrow" class="right-arrow" src="{{ url_for('static', filename='images/arrowRightStatesHovered.png') }}" onclick="rightArrow();">
+                    <div class="image-gallery-circle" id="dotContainer"></div>
+                    <img id="leftArrow" class="left-arrow" src="{{ url_for('static', filename='images/arrowLeftStatesHovered.png') }}" onclick="leftArrow();">
+                    <img id="rightArrow" class="right-arrow" src="{{ url_for('static', filename='images/arrowRightStatesHovered.png') }}" onclick="rightArrow();">
                 </div>
                 <div class="schedule-box">
                     <div class="attraction-title"></div>
@@ -38,9 +34,7 @@
                         <div class="booking-content-text-bottom15">以此景點為中心的一日行程，帶您探索城市角落故事</div>
                         <div style="display: flex; align-items: center;" class="margin-bottom-15px">
                             <div class="booking-title-text">選擇日期：</div>
-                            <div class="date">
-                                <input type="date" class="date-text" id="dateInput">
-                            </div>                                                        
+                                <input type="date" class="date" id="dateInput">
                         </div>
                         <div style="display: flex; align-items: center;" class="margin-bottom-15px">
                             <div class="booking-title-text">選擇時間：</div>

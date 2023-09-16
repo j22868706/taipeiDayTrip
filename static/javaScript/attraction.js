@@ -33,13 +33,26 @@ function fetchAttractionData(attractionId) {
           const imgElement = document.createElement('img');
           imgElement.src = imageUrl;
           imgElement.alt = data.data.name;
-          imgElement.classList.add('attraction-image'); 
+          imgElement.classList.add('attraction-image');
+          
+          const dot = document.createElement('img');
+          dot.src = "/static/images/circle.png";
+          dot.classList.add('circle');
+
+          dot.addEventListener('click', () => {
+            showImage(index);
+            setActiveDot(index);
+          });
+
+          dotContainer.appendChild(dot);
           imageGallery.appendChild(imgElement);
 
           if (index=== 0) {
             imgElement.style.display = "block";
+            dot.src = "/static/images/circle-current.png";
           } else {
             imgElement.style.display = "none";
+            dot.src = "/static/images/circle.png";
           }
         });
       }
@@ -53,19 +66,26 @@ let currentImageIndex = 0;
 function leftArrow() {
   const imageGallery = document.getElementById("imageGallery");
   const attractionImages = imageGallery.querySelectorAll(".attraction-image");
+  const dots = document.querySelectorAll(".circle");
   
   attractionImages[currentImageIndex].style.display = "none";
+  dots[currentImageIndex].src = "/static/images/circle.png";
   currentImageIndex = (currentImageIndex - 1 + attractionImages.length) % attractionImages.length;
   attractionImages[currentImageIndex].style.display = "block";
+  dots[currentImageIndex].src = "/static/images/circle-current.png";
 }
 
 function rightArrow() {
   const imageGallery = document.getElementById("imageGallery");
   const attractionImages = imageGallery.querySelectorAll(".attraction-image");
+  const dots = document.querySelectorAll(".circle");
+
   
-  attractionImages[currentImageIndex].style.display = "none"; 
+  attractionImages[currentImageIndex].style.display = "none";
+  dots[currentImageIndex].src = "/static/images/circle.png"; 
   currentImageIndex = (currentImageIndex + 1) % attractionImages.length;
   attractionImages[currentImageIndex].style.display = "block";
+  dots[currentImageIndex].src = "/static/images/circle-current.png";
 }
 
 fetchAttractionData(attractionId);

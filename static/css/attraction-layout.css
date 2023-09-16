@@ -81,7 +81,7 @@ section{
     border-radius: 5px;
 }
 .image-gallery-circle{
-    width: 115px;
+    width: auto;
     height: 12px; 
     transform: translateX(50%);
     position: absolute;
@@ -115,7 +115,7 @@ section{
     cursor: pointer;
 }
 .image-gallery-images{
-    width: 100%;
+    width: 540px;
     height: 100%;
     object-fit: cover;
     border-radius: 5px;
@@ -174,17 +174,11 @@ section{
     margin-left: 5px;
     user-select: none;
     background-color: rgba(255, 255, 255, 1);
-}
-
-.date-text{
     font-size: 16px;
     font-weight: 500;
     line-height: 13px;
     color: rgba(0, 0, 0, 1);
     height: 25px;
-    outline: none;
-    border: none;
-    width: 180px;
 }
 
 .check-flex{
@@ -280,7 +274,7 @@ img.filled-icon {
 }
 
 
-@media (max-width: 1200px){
+@media (max-width: 1250px){
     .nav_bar {
         width: 100%;
         margin: 0 auto;
@@ -289,6 +283,24 @@ img.filled-icon {
         align-items: center;
         list-style: none;
     }
+    .schedule-box{
+        width: 500px;
+    }
+    .info-flex{
+    margin: 0px 10px;
+    }
+    .booking-section{
+        min-height: 250px;
+        height: auto;
+    }
+    .date{
+        width: 190px;
+        font-size: 16px;
+    }
+    .booking-title-text{
+        width: 81px;
+    }
+
 }
 @media (max-width: 600px) and (min-width: 360px) {
     .nav_bar {
@@ -299,29 +311,23 @@ img.filled-icon {
         align-items: center;
         list-style: none;
     }
-    .searchSpace{
-        width: 200px;
-        height: 46px;
-        background: rgba(255, 255, 255, 1);
-        border:none;
-        vertical-align: middle;
-        margin-right: -2px;
-        padding: 15px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 13.3px;
-        color: rgba(117, 117, 117, 1);
-        box-shadow: 0px 0px 20px 0px rgba(170, 187, 204, 1);
+    section{
+        flex-wrap: wrap;
+        height: auto;
+        margin-top: 52px;
     }
-    .attraction{
-        width: 90%;
-        border-radius: 5px;
-        border: 1px solid rgba(232, 232, 232, 1);
-        margin: 15px;
-        position: relative;
-        display: flex;
-        flex-direction: column; 
-        }
+    .img-box{
+        width: 466px;
+        height: 350px;
+        margin: 0px 0px 20px 0px;
     }
+    .booking-section{
+        min-height: 250px;
+        height: 300px;
+    }
+}
+
+
+
 
 
