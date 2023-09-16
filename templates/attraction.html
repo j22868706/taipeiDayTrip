@@ -11,7 +11,7 @@
         <header >
             <nav class="header">
                 <ul class='nav_bar'>
-                    <li class='logo'>台北一日遊</li>
+                    <li class='logo' onclick="returnIndex();">台北一日遊</li>
                     <li class="menu">
                         <a class="menu-item menu-item-text" href="">預定行程</a>
                         <a class="menu-item menu-item-text"href="">登入/註冊</a>
@@ -21,18 +21,17 @@
         </header>
         <div class="info-flex">
             <section>
-                <div class="img-box">
-                    <div class="image-gallery-circle">
-                        <img class="circle" src="{{ url_for('static', filename='images/circle-current.png') }}">
+                <div class="img-box" id="imageGallery" src="">
+                    <div class="image-gallery-circle" id="dotContainer">
+                        <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
                         <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
                         <img class="circle" src="{{ url_for('static', filename='images/circle.png') }}">
                     </div>
-                        <img class="left-arrow" src="{{ url_for('static', filename='images/left-arrow.png') }}" onclick="leftArrow();">
-                        <img class="right-arrow" src="{{ url_for('static', filename='images/right-arrow.png') }}" onclick="rightArrow();">
-                        <img class="image-gallery-image" id="imageGallery" src="" alt="Image Gallery">
+                        <img id="leftArrow" class="left-arrow" src="{{ url_for('static', filename='images/arrowLeftStatesHovered.png') }}" onclick="leftArrow();">
+                        <img id="rightArrow" class="right-arrow" src="{{ url_for('static', filename='images/arrowRightStatesHovered.png') }}" onclick="rightArrow();">
                 </div>
                 <div class="schedule-box">
-                    <div class="attraciton-title"></div>
+                    <div class="attraction-title"></div>
                     <div class="attraction-category-mrt"></div>
                     <div class="booking-section">
                         <div class="booking-title-text-bottom15">訂購導覽行程</div>
@@ -41,7 +40,6 @@
                             <div class="booking-title-text">選擇日期：</div>
                             <div class="date">
                                 <input type="date" class="date-text" id="dateInput">
-                                <button class="custom-calendar-button" ><img class="custom-calendar-button-img" src="{{ url_for('static', filename='images/icon_calendar.png') }}" onclick="openDatePicker();"></button>
                             </div>                                                        
                         </div>
                         <div style="display: flex; align-items: center;" class="margin-bottom-15px">
