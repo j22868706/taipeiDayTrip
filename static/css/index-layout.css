@@ -14,11 +14,12 @@ body{
     background-color:rgba(255, 255, 255, 1);
     position: fixed;
     z-index: 5;
-    margin-bottom: 54px;
 }
 .nav_bar {
     width: 1200px;
-    margin: 0 auto;
+    margin-right: auto;
+    margin: auto;
+    margin-top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -215,7 +216,8 @@ button {
     margin: 15px;
     position: relative;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
+    cursor: pointer; 
 }
 
 .attraction-img {
@@ -330,7 +332,8 @@ button {
         margin: 15px;
         position: relative;
         display: flex;
-        flex-direction: column; 
+        flex-direction: column;
+        cursor: pointer;  
         }
     }
 

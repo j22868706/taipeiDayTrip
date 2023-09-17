@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>台北一日遊</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/attraction-layout.css') }}">
+        <script src="{{ url_for('static', filename= 'javaScript/attraction.js')}}"></script>
+    </head>
+    <body>
+        <header >
+            <nav class="header">
+                <ul class='nav_bar'>
+                    <li class='logo' onclick="returnIndex();">台北一日遊</li>
+                    <li class="menu">
+                        <a class="menu-item menu-item-text" href="">預定行程</a>
+                        <a class="menu-item menu-item-text"href="">登入/註冊</a>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+        <div class="info-flex">
+            <section>
+                <div class="img-box" id="imageGallery" src="">
+                    <div class="image-gallery-circle" id="dotContainer"></div>
+                    <img id="leftArrow" class="left-arrow" src="{{ url_for('static', filename='images/arrowLeftStatesHovered.png') }}" onclick="leftArrow();">
+                    <img id="rightArrow" class="right-arrow" src="{{ url_for('static', filename='images/arrowRightStatesHovered.png') }}" onclick="rightArrow();">
+                </div>
+                <div class="schedule-box">
+                    <div class="attraction-title"></div>
+                    <div class="attraction-category-mrt"></div>
+                    <div class="booking-section">
+                        <div class="booking-title-text-bottom15">訂購導覽行程</div>
+                        <div class="booking-content-text-bottom15">以此景點為中心的一日行程，帶您探索城市角落故事</div>
+                        <div style="display: flex; align-items: center;" class="margin-bottom-15px">
+                            <div class="booking-title-text">選擇日期：</div>
+                                <input type="date" class="date" id="dateInput">
+                        </div>
+                        <div style="display: flex; align-items: center;" class="margin-bottom-15px">
+                            <div class="booking-title-text">選擇時間：</div>
+                            <div class="check-flex" onclick="check_left()">
+                                <img id="leftIconUnfilled" src="{{ url_for('static', filename='images/click.png') }}" class="unfilled-icon">
+                                <img id="leftIconFilled" src="{{ url_for('static', filename='images/click-filled.png') }}" class="filled-icon">
+                                <div class="font-size-16px text-med" style="margin-left: 5px;">上半天</div>
+                            </div>
+                            <div class="check-flex" onclick="check_right()" style="margin-left: 15px;">
+                                <img id="rightIconUnfilled" src="{{ url_for('static', filename='images/click.png') }}" class="unfilled-icon">
+                                <img id="rightIconFilled" src="{{ url_for('static', filename='images/click-filled.png') }}" class="filled-icon">
+                                <div class="font-size-16px text-med" style="margin-left: 5px;">下半天</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                            <div class="booking-title-text">導覽費用：</div>
+                            <div id="tourCost" class="booking-content-text">請選擇行程</div>
+                        </div>                        
+                        <div class="schedule-button">開始預約行程</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+            <div style="display: flex; justify-content: center;">
+                <hr style="width: 1200px; opacity: 0.3; margin: 40px 0;">
+            </div>
+        </div>
+        <div class="info-flex">
+            <div style="width: 100%; max-width: 1200px;">
+                <div class="info-intro"></div>
+                <div class="info-address-title">景點地址:</div>
+                <div class="info-address"></div>
+                <div class="info-traffic-title">交通方式：</div>
+                <div class="info-traffic"></div>
+            </div>
+
+        </div>
+
+        <footer class="footer">
+            <div class="footer-text">COPYRIGHT &copy; 2021 台北一日遊</div>
+        </footer>
+    </body>
+</html>

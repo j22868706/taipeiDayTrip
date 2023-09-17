@@ -100,7 +100,13 @@ function setupScrollListener() {
 
 function appendDataToPage(attraction) {
   const attractionDiv = document.createElement("div");
-  attractionDiv.classList.add("attraction");  
+  attractionDiv.classList.add("attraction");
+
+  attractionDiv.onclick = function() {
+    const attractionId = attraction.id;
+    window.location.href = `/attraction/${attractionId}`;
+  };
+  
     if (attraction.images && attraction.images.length > 0) {
     const imgElement = document.createElement("img");
     imgElement.src = attraction.images[0];
@@ -142,3 +148,4 @@ searchButton.addEventListener("click", initializePage);
 }
 
 setupAttractionSearch();
+
