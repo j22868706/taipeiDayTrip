@@ -140,6 +140,7 @@ body{
     text-align: left;
     color: rgba(68, 136, 153, 1);
     padding: 10px;
+    cursor: pointer;
 }
 .menu {
     display: flex;
@@ -158,6 +159,7 @@ body{
     text-decoration: none;
     color: rgba(102, 102, 102, 1);
     text-align: center;
+    cursor: pointer;
 }
 #check {display: none;}
 .item{

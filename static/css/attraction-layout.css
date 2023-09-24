@@ -162,6 +162,7 @@ body{
     text-decoration: none;
     color: rgba(102, 102, 102, 1);
     text-align: center;
+    cursor: pointer;
 }
 #check {display: none;}
 section{
