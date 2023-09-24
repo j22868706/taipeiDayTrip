@@ -150,11 +150,11 @@ body{
     width: auto;
     height: 34px;
 }
-.menu-item {
+.menu li {
     justify-content: space-between;
     padding: 10px;
 }
-.menu-item-text {
+.menu li a {
     display: inline-block;
     font-weight: 500;
     font-size: 16px;
