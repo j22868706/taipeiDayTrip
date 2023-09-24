@@ -6,6 +6,8 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 import mysql.connector
 import json
 from collections import OrderedDict
+import jwt
+import datetime
 app.debug = True
 
 # Pages
