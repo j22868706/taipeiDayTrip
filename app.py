@@ -6,6 +6,8 @@ app.config["TEMPLATES_AUTO_RELOAD"]=True
 import mysql.connector
 import json
 from collections import OrderedDict
+import jwt
+import datetime
 app.debug = True
 
 # Pages
@@ -190,5 +192,108 @@ def mrts():
         }
         print("Error:", e)
         return json.dumps(mrt_error_response, ensure_ascii=False).encode('utf8'), 500 
+
+@app.route('/api/user', methods=["POST"])
+def signup():
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    signupName = request.form["signupName"]
+    signupEmail = request.form["signupEmail"]
+    signupPassword = request.form["signupPassword"]
+
+    cursor = con.cursor()
+
+    cursor.execute("SELECT * FROM membership WHERE email = %s", (signupEmail,))
+    existing_user = cursor.fetchone()
+
+    if existing_user:
+        con.close()
+        signup_error_response = {"error": True, "message": "這個電子郵箱已經被使用!"}
+        return jsonify(signup_error_response), 400
+    try:
+        cursor.execute("INSERT INTO membership (name, email, password) VALUES (%s, %s, %s)",
+                       (signupName, signupEmail, signupPassword))
+        con.commit()
+        con.close()
+        signup_success_response = {"ok": True, "message": "註冊成功"}
+        return jsonify(signup_success_response), 200
+    except Exception as e:
+        con.close()
+        print("Error:", e)
+        signup_error_response = {"error": True, "message": "註冊失敗"}
+        return jsonify(signup_error_response), 500
+
+@app.route('/api/user/auth', methods=["PUT"])
+def signin():
+    try:
+        con = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="Montegomery@3303",
+            database="taipeiDayTrip"
+        )
+        signinEmail = request.form["signinEmail"]
+        signinPassword = request.form["signinPassword"]
+        cursor = con.cursor()
+
+        cursor.execute("SELECT * FROM membership WHERE email = %s AND password =%s" , (signinEmail, signinPassword))
+        signinMembership = cursor.fetchall()
+        for signinRow in signinMembership:
+            if signinRow[2] == signinEmail and signinRow[3] == signinPassword:
+                user_info = {
+                   "id": signinRow[0],
+                   "name": signinRow[1],
+                   "email": signinRow[2]
+                }
+                expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=7)
+                secret_key = "My_secret_key"
+                token = jwt.encode({"user": user_info, "exp": expiration_time}, secret_key, algorithm="HS256")
+                return jsonify({"token": token})
+        return jsonify({"error":True, "message":"電子郵件或密碼錯誤"}), 400 
+    except Exception as e:
+        signin_error_response = {
+        "error": True,
+        "message": "請按照情境提供對應的錯誤訊息"
+        }
+        return jsonify(signin_error_response), 500 
+
+def authenticate_token(f):
+    def decorated(*args, **kwargs):
+        token = request.headers.get("Authorization")
+        secret_key = "My_secret_key"
+        if token is None:
+            return jsonify(data=None)
+        
+        token_parts = token.split()
+        if len(token_parts) != 2 or token_parts[0].lower() != "bearer":
+            return jsonify(data=None)
+        
+        jwt_token = token_parts[1]
+        
+        try:
+            decode_token = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+            token_user_info = decode_token.get("user", None)
+            if token_user_info is None:
+                return jsonify(data=None)
+            return jsonify(data=token_user_info)
+        except jwt.ExpiredSignatureError:
+            print("JWTToken過期")
+            return jsonify(data=None), 400
+        except jwt.InvalidTokenError as e:
+            print("JWTToken無效:", str(e))
+            return jsonify(data=None), 400
+    return decorated
+
+
+@app.route("/api/user/auth", methods=["GET"])
+@authenticate_token
+def user_auth(current_user):
+    return jsonify(data=current_user)
+
+
 
 app.run(host="0.0.0.0", port=3000)
