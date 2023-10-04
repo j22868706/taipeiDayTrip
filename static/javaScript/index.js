@@ -316,3 +316,4 @@ function bookingButton(){
   else
   window.location.href = "/booking";
 }
+

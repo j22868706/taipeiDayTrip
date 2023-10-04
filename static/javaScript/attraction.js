@@ -1,5 +1,9 @@
 const url = window.location.href;
 const attractionId = url.substring(url.lastIndexOf('/') + 1);
+let price = 2000;
+let leftClicked = false;
+let rightClicked = false;
+
 
 function fetchAttractionData(attractionId) {
   fetch(`/api/attraction/${attractionId}`)
@@ -91,6 +95,8 @@ function rightArrow() {
 fetchAttractionData(attractionId);
 
 function check_left() {
+  price = 2000;
+  leftClicked = true;
   document.getElementById("tourCost").textContent = "新台幣 2000 元";
   document.getElementById("leftIconUnfilled").style.display = "none";
   document.getElementById("leftIconFilled").style.display = "block";
@@ -100,6 +106,8 @@ function check_left() {
 }
 
 function check_right() {
+  price = 2500;
+  rightClicked = true;
   document.getElementById("tourCost").textContent = "新台幣 2500 元";
   document.getElementById("rightIconUnfilled").style.display = "none";
   document.getElementById("rightIconFilled").style.display = "block";
@@ -266,7 +274,6 @@ function logoutBlock() {
   localStorage.removeItem("token");  
   window.location.reload();
 }
-
 
 function bookTrip() {
   const date = document.getElementById("dateInput").value;
