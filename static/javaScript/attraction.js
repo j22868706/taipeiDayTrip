@@ -266,3 +266,63 @@ function logoutBlock() {
   localStorage.removeItem("token");  
   window.location.reload();
 }
+
+
+function bookTrip() {
+  const date = document.getElementById("dateInput").value;
+  const url = window.location.href;
+  const attractionId = url.substring(url.lastIndexOf('/') + 1);
+  const time = price === 2000 ? "morning" : "afternoon";
+
+  const bookingData = {
+      attractionId: attractionId,
+      date: date,
+      time: time,
+      price: price
+  };
+  console.log(bookingData);
+
+  const token = localStorage.getItem("token");
+  const headers = token
+      ? { Authorization: `Bearer ${token}` }
+      : {};
+  if (!token) {
+    loginBlock();
+  }
+  else if (date === "" ) {
+    alert("是不是忘了選取日期或時間啊！！！")
+  }
+  else if (!leftClicked && !rightClicked){
+    alert("是不是忘了選取日期或時間啊！！！")
+  }
+  else {
+  fetch("/api/booking", {
+      method: "POST",
+      headers: {
+          "Content-Type": "application/json",
+          ...headers
+      },
+      body: JSON.stringify(bookingData) 
+  })
+  .then(response => response.json())
+  .then(data => {
+      if (data.ok) {
+          window.location.href = "/booking";
+      }else {
+        console.error("Error:"+data.message)
+      }
+  })
+  .catch(error => {
+      console.error("Error:", error);
+  });
+}
+}
+
+function bookingButton(){
+  const token = localStorage.getItem("token");
+  if (!token) {
+    loginBlock();
+  }
+  else
+  window.location.href = "/booking";
+}

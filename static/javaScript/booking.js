@@ -1,155 +1,3 @@
-function fetchMrts() {
-  fetch('/api/mrts')
-    .then((response) => response.json())
-    .then((data) => {
-      const ul = document.getElementById('mrt-stations');
-      
-      data.data.forEach((station) => {
-        const li = document.createElement('li');
-        li.textContent = station; 
-        ul.appendChild(li);
-
-        li.addEventListener('click', function () {
-
-          const searchInput = document.getElementById('search-input');
-          searchInput.value = station;
-          const searchButton = document.getElementById('search-button');
-          searchButton.click();         
-        });
-      });
-    })
-    .catch((error) => {
-      console.error('無法顯示：', error);
-    });
-}
-window.onload = fetchMrts;
-
-fetchMrts();
-
-function leftScroll() {
-  const listContent = document.getElementById('mrt-stations');
-  const scrollAmount = listContent.offsetWidth; 
-  listContent.scrollLeft -= scrollAmount; 
-}
-
-function rightScroll() {
-  const listContent = document.getElementById('mrt-stations');
-  const scrollAmount = listContent.offsetWidth;
-  listContent.scrollLeft += scrollAmount; 
-}
-
-function setupAttractionSearch() {
-  document.addEventListener("DOMContentLoaded", function () {
-    const searchButton = document.getElementById("search-button");
-    const searchInput = document.getElementById("search-input");
-    const attractionsContainer = document.getElementById("attractions-container");
-    let nextPage = 0;
-    let isLoading = false;
-    let keyword = "";
-
-    function loadMoreData() {
-      if (nextPage !== null && !isLoading) {
-        isLoading = true;
-    
-        fetch(`/api/attractions?keyword=${keyword}&page=${nextPage}`)
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.data && data.data.length > 0) {
-              data.data.forEach((attraction) => {
-                appendDataToPage(attraction);
-              });
-    
-              nextPage = data.nextPage;
-    
-              isLoading = false;
-            } else if (data === null || data.data === null) {
-                window.alert("查無景點");
-                isLoading = false;
-            } else {
-              nextPage = null;
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            isLoading = false;
-          });
-      }
-    }
-    
-function initializePage() {
-  attractionsContainer.innerHTML = "";
-  nextPage = 0;
-  keyword = searchInput.value;
-
-  setupScrollListener();
-  loadMoreData();
-}
-
-function setupScrollListener() {
-  window.addEventListener("scroll", function () {
-    if (
-      window.innerHeight + window.scrollY >=
-        document.documentElement.scrollHeight - 100 &&
-      nextPage !== null &&
-      !isLoading
-    ) {
-      loadMoreData();
-    }
-  });
-}
-
-function appendDataToPage(attraction) {
-  const attractionDiv = document.createElement("div");
-  attractionDiv.classList.add("attraction");
-
-  attractionDiv.onclick = function() {
-    const attractionId = attraction.id;
-    window.location.href = `/attraction/${attractionId}`;
-  };
-  
-    if (attraction.images && attraction.images.length > 0) {
-    const imgElement = document.createElement("img");
-    imgElement.src = attraction.images[0];
-    imgElement.alt = attraction.name;
-    imgElement.classList.add("attraction-img");
-    attractionDiv.appendChild(imgElement);
-}
-    
-  const textElement1 = document.createElement("div");
-  textElement1.textContent = attraction.name;
-  textElement1.classList.add("opacity", "attraction-name");
-  attractionDiv.appendChild(textElement1);
-    
-  const imageBottom = document.createElement("div");
-  imageBottom.classList.add("image-bottom");
-  attractionDiv.appendChild(imageBottom);
-    
-  const textElement2 = document.createElement("div");
-  textElement2.textContent = attraction.mrt;
-  textElement2.classList.add("mrt-name");
-  imageBottom.appendChild(textElement2);
-    
-  const textElement3 = document.createElement("div");
-  textElement3.textContent = attraction.category;
-  textElement3.classList.add("category");
-  imageBottom.appendChild(textElement3);
-  
-  attractionsContainer.appendChild(attractionDiv);
-
-}
-
-window.onload = function () {
-  initializePage();
-  setupScrollListener(); 
-}
-
-searchButton.addEventListener("click", initializePage);
-  });
-}
-
-setupAttractionSearch();
-
-
 function loginBlock() {
   const loginForm = document.querySelector('.login-form');
   const registrationForm = document.querySelector(".registration-form");
@@ -270,7 +118,6 @@ function checkUserStatus() {
   const headers = token
     ? { Authorization: `Bearer ${token}` }
     : {}; 
-
   fetch('/api/user/auth', {
     method: 'GET',
     headers: headers
@@ -285,10 +132,12 @@ function checkUserStatus() {
     .then(data => {
       const loginLink = document.getElementById('login-link');
       const logoutLink = document.getElementById('logout-link');
+      const usernamePlaceholder = document.getElementById("usernamePlaceholder");
 
       if (data && data.data !== null) {
         loginLink.style.display = 'none';
         logoutLink.style.display = 'block';
+        usernamePlaceholder.textContent = data.data.name; 
       } else {
         loginLink.style.display = 'block';
         logoutLink.style.display = 'none';
@@ -308,11 +157,97 @@ function returnIndex(){
   window.location.href = `/`;
 }
 
+document.addEventListener("DOMContentLoaded", function () {
+const token = localStorage.getItem("token");
+const headers = token
+    ? { Authorization: `Bearer ${token}` }
+    : {};
+if (!token) {
+      returnIndex();
+}
+else
+fetch("/api/booking", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json",
+        ...headers
+    }
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+    const contactInfo = document.getElementById('contact-info');
+    const paymentInfo = document.getElementById("payment-info");
+    const payandcheck = document.getElementById("confirm-and-payment")
+    const lineOne = document.getElementById("lineOne")
+    const lineTwo = document.getElementById("lineTwo")
+    const lineThree = document.getElementById("lineThree")
+    const totalfee = document.getElementById("total-cost")
+    const noReservation = document.getElementById('no-reservation')
+    const attractionTitle = document.getElementById("attractionTitle")
+    const attractionTime = document.getElementById("attractionTime")
+    const attractionPrice = document.getElementById("attractiondPrice")
+    const attractionAddress = document.getElementById("attractiondAddress")
+    const attractionDate = document.getElementById("attractionDate")
+    const attractionImg = document.getElementById("img")
+    const section = document.getElementById("section")
+
+
+    if (data && data.data !== null) {
+      contactInfo.style.display = 'block';
+      paymentInfo.style.display = 'block';
+      payandcheck.style.display = 'block';
+      noReservation.style.display = 'none'
+      totalfee.textContent = data.data.price;
+      attractionTitle.textContent = data.data.attraction.name;
+      attractionDate.textContent = data.data.date;
+      attractionTime.textContent = data.data.time; 
+      attractionPrice.textContent = data.data.price; 
+      attractionAddress.textContent = data.data.attraction.address;
+      attractionImg.src = data.data.attraction.images; 
+
+    } else {
+      contactInfo.style.display = 'none';
+      paymentInfo.style.display = 'none';
+      payandcheck.style.display = 'none';
+      lineOne.style.display = 'none';
+      lineTwo.style.display = 'none';
+      lineThree.style.display = 'none';
+      section.style.display = 'none';
+    }
+})
+.catch(error => {
+    console.error("Error fetching data:", error);
+});
+});
+
 function bookingButton(){
-  const token = localStorage.getItem("token");
-  if (!token) {
-    loginBlock();
-  }
-  else
-  window.location.href = "/booking";
+const token = localStorage.getItem("token");
+if (!token) {
+  loginBlock();
+}
+else
+window.location.href = "/booking";
+}
+
+function deleteBooking() {
+const token = localStorage.getItem("token");
+const headers = token ? { Authorization: `Bearer ${token}` } : {};
+
+fetch("/api/booking", {
+  method: "DELETE",
+  headers: headers,
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log(data)
+    if (data.ok) {
+      window.location.reload();
+    } else {
+      console.error("刪除預定失敗");
+    }
+  })
+  .catch((error) => {
+    console.error("發生錯誤:", error);
+  });
 }
