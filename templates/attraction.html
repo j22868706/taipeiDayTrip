@@ -67,12 +67,12 @@
                         </div>
                         <div style="display: flex; align-items: center;" class="margin-bottom-15px">
                             <div class="booking-title-text">選擇時間：</div>
-                            <div class="check-flex" onclick="check_left()">
+                            <div id= checkLeft class="check-flex" onclick="check_left()">
                                 <img id="leftIconUnfilled" src="{{ url_for('static', filename='images/click.png') }}" class="unfilled-icon">
                                 <img id="leftIconFilled" src="{{ url_for('static', filename='images/click-filled.png') }}" class="filled-icon">
                                 <div class="font-size-16px text-med" style="margin-left: 5px;">上半天</div>
                             </div>
-                            <div class="check-flex" onclick="check_right()" style="margin-left: 15px;">
+                            <div id = checkRight class="check-flex" onclick="check_right()" style="margin-left: 15px;">
                                 <img id="rightIconUnfilled" src="{{ url_for('static', filename='images/click.png') }}" class="unfilled-icon">
                                 <img id="rightIconFilled" src="{{ url_for('static', filename='images/click-filled.png') }}" class="filled-icon">
                                 <div class="font-size-16px text-med" style="margin-left: 5px;">下半天</div>
@@ -99,7 +99,6 @@
                 <div class="info-traffic-title">交通方式：</div>
                 <div class="info-traffic"></div>
             </div>
-
         </div>
 
         <footer class="footer">

@@ -104,7 +104,6 @@ def attractions():
 
 @app.route("/api/attraction/<int:attractionId>")
 def get_attraction(attractionId):
-    print(attractionId)
     try:
         con = mysql.connector.connect(
             host="localhost",
@@ -251,7 +250,7 @@ def signin():
                 }
                 expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=7)
                 secret_key = "My_secret_key"
-                token = jwt.encode({"user": user_info, "exp": expiration_time}, secret_key, algorithm="HS256")
+                token = jwt.encode({"data": user_info}, secret_key, algorithm="HS256")
                 return jsonify({"token": token})
         return jsonify({"error":True, "message":"電子郵件或密碼錯誤"}), 400 
     except Exception as e:
@@ -276,7 +275,8 @@ def authenticate_token(f):
         
         try:
             decode_token = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
-            token_user_info = decode_token.get("user", None)
+            print(decode_token)
+            token_user_info = decode_token.get("data", None)
             if token_user_info is None:
                 return jsonify(data=None)
             return jsonify(data=token_user_info)
@@ -292,6 +292,7 @@ def authenticate_token(f):
 @app.route("/api/user/auth", methods=["GET"])
 @authenticate_token
 def user_auth(current_user):
+    print(current_user)
     return jsonify(data=current_user)
 
 @app.route("/api/booking", methods=["GET"])
@@ -464,7 +465,6 @@ def delete_trip():
             except Exception as e:
                 return jsonify({"error": str(e)})
     return jsonify({"error": True, "message": "請按照情境提供對應的錯誤訊息"})
-
 
 
 app.run(host="0.0.0.0", port=3000)
