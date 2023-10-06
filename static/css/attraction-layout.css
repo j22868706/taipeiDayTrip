@@ -6,6 +6,7 @@
 body{
     font-family: "Noto Sans TC", sans-serif;
 }
+
 .login-class{
     position: fixed;
     width: 100%;
@@ -381,6 +382,8 @@ hr{
 img.filled-icon {
     display: none;
 }
+
+
 @media (max-width: 1250px){
     .nav_bar {
         width: 100%;
@@ -430,8 +433,4 @@ img.filled-icon {
         height: 300px;
     }
 }
-
-
-
-
 

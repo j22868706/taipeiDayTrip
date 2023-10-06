@@ -8,13 +8,24 @@
         <script src="{{ url_for('static', filename= 'javaScript/booking.js')}}"></script>
     </head>
     <body>
-        <div class="login-class"></div>
+        <header class="header">
+            <nav>
+                <ul class='nav_bar'>
+                    <li class='logo' onclick="returnIndex()";>台北一日遊</li>
+                    <span class="menu">
+                        <li id="booking-link"><a onclick="bookingButton()" >預定行程</a></li>
+                        <li id="login-link"><a onclick="loginBlock()">登入/註冊</a></li>
+                        <li id="logout-link"><a onclick="logoutBlock()">登出系統</a></li>
+                    </span>
+                </ul>
+            </nav>
+            <div class="login-class"></div>
             <div class="login-form">
             <form action="/api/user/auth" method="PUT" id="signinForm">
                 <img src="/static/images/close.png" class="close-button" onclick="closeLoginForm()">
                 <div class="registration-top"></div>
                 <div style="display: flex; justify-content: center; font-size: 24px; font-weight: bold; margin: 10px; color: rgba(102, 102, 102, 1);" >
-                         登入會員帳號</div>
+                登入會員帳號</div>
                 <input type="text" placeholder="輸入電子信箱" class="text-input" id="signinEmail" name="signinEmail">
                 <input type="password" placeholder="輸入密碼" class="text-input" id="signinPassword" name="signinPassword">
                 <button class="login-button-text" onclick= submitSigninForm(event)>登入帳號</button>
@@ -23,7 +34,7 @@
             </form>
             </div>
             <div class="registration-form">
-                <form action="/api/user" method="POST" id="signupForm" >
+            <form action="/api/user" method="POST" id="signupForm" >
                 <img src="/static/images/close.png" class="close-button" onclick="closeRegistForm()">
                 <div class="registration-top"></div>
                 <div style="display: flex; justify-content: center; font-size: 24px; font-weight: bold; margin: 10px; color: rgba(102, 102, 102, 1);" >
@@ -35,19 +46,10 @@
                 <div class="message-box"></div>
                 <div class="create-text" onclick="switchToLogin()">已經有帳戶了？點此登入</div>
             </form>
-        </div>
-        <nav>
-            <ul class='nav_bar'>
-                <li class='logo' onclick="returnIndex()";>台北一日遊</li>
-                <span class="menu">
-                    <li id="booking-link"><a onclick="bookingButton()" >預定行程</a></li>
-                    <li id="login-link"><a onclick="loginBlock()">登入/註冊</a></li>
-                    <li id="logout-link"><a onclick="logoutBlock()">登出系統</a></li>
-                </span>
-            </ul>
-        </nav>
-        <main style="margin-bottom: 104px;">
-            <div class="main-flex" style="overflow-x: hidden;">
+            </div>
+        </header>
+        <main class="main-flex">
+            <div class="main-info" style="overflow-x: hidden; margin-bottom: 104px;">
                 <div style="width: 100%; max-width: 1200px; display:flex; align-items: center; flex-direction: column;">
                     <div class="display-flex" style="max-width: 1000px; margin-bottom: 30px;">
                         <div class="text-title">您好，<span id="usernamePlaceholder"></span>，待預定的行程如下：</div>
