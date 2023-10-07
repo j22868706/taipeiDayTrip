@@ -104,7 +104,6 @@ def attractions():
 
 @app.route("/api/attraction/<int:attractionId>")
 def get_attraction(attractionId):
-    print(attractionId)
     try:
         con = mysql.connector.connect(
             host="localhost",
@@ -251,7 +250,7 @@ def signin():
                 }
                 expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=7)
                 secret_key = "My_secret_key"
-                token = jwt.encode({"user": user_info, "exp": expiration_time}, secret_key, algorithm="HS256")
+                token = jwt.encode({"data": user_info}, secret_key, algorithm="HS256")
                 return jsonify({"token": token})
         return jsonify({"error":True, "message":"電子郵件或密碼錯誤"}), 400 
     except Exception as e:
@@ -276,7 +275,8 @@ def authenticate_token(f):
         
         try:
             decode_token = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
-            token_user_info = decode_token.get("user", None)
+            print(decode_token)
+            token_user_info = decode_token.get("data", None)
             if token_user_info is None:
                 return jsonify(data=None)
             return jsonify(data=token_user_info)
@@ -292,8 +292,179 @@ def authenticate_token(f):
 @app.route("/api/user/auth", methods=["GET"])
 @authenticate_token
 def user_auth(current_user):
+    print(current_user)
     return jsonify(data=current_user)
 
+@app.route("/api/booking", methods=["GET"])
+def get_trip():
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
+
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                user_id = decoded["data"]["id"]
+                cursor.execute('SELECT id FROM membership WHERE id = %s', (user_id,))
+                member_id = cursor.fetchone()[0]
+                cursor.execute('SELECT memberID FROM booking WHERE memberID = %s', (member_id,))
+                existing_booking = cursor.fetchone()
+
+                if existing_booking:
+                    searched_booking_query = "SELECT memberID, attractionID, date, time, price FROM booking WHERE memberID = %s"
+                    cursor.execute(searched_booking_query, (member_id,))
+                    booking_info = cursor.fetchone()
+
+                    if booking_info:
+                        member_id, attraction_id, booking_info_date, booking_info_time, booking_info_price = booking_info
+
+                        search_attraction_info_query = "SELECT id, rownumber, name, address FROM attractions WHERE id = %s"
+                        cursor.execute(search_attraction_info_query, (attraction_id,))
+                        attraction_info = cursor.fetchone()
+
+                        if attraction_info:
+                            attraction_id, attraction_rownumber, attraction_name, attraction_address = attraction_info
+
+
+
+                            img_query = "SELECT imageUrl FROM attractionImages WHERE attractionRownumber = %s"
+                            cursor.execute(img_query, (attraction_rownumber,))
+                            img_data = cursor.fetchall()
+                            image_url = img_data[0][0]  
+                        
+                        attraction = {
+                            "id": attraction_id,
+                            "name": attraction_name,
+                            "address": attraction_address,
+                            "images": image_url
+                        }
+                        
+                        booking_response_data = {
+                            "attraction": attraction,
+                            "date": booking_info_date,
+                            "time": booking_info_time,
+                            "price": booking_info_price,
+                        }
+                        return jsonify({"data": booking_response_data})
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token expired"})
+            except jwt.DecodeError:
+                return jsonify({"error": "Token decoding failed"})
+            except Exception as e:
+                return jsonify({"error": str(e)})
+    
+    return jsonify({"data": None})
+
+@app.route("/api/booking", methods=["POST"])
+def update_trip():
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
+
+    trip_reservation = request.get_json()
+    attractionId = trip_reservation["attractionId"]
+    date = trip_reservation["date"]
+    time = trip_reservation["time"]
+    price = trip_reservation["price"]
+
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                user_id = decoded["data"]["id"]
+                cursor.execute('SELECT id FROM membership WHERE id = %s', (user_id,))
+                member_id = cursor.fetchone()[0]
+                cursor.execute('SELECT memberID FROM booking WHERE memberID = %s', (member_id,))
+                existing_booking = cursor.fetchone()
+
+
+                if existing_booking:
+                    update_booking = "UPDATE booking SET attractionID = %s, date = %s, time = %s, price = %s WHERE memberID = %s"
+                    cursor.execute(update_booking, (attractionId, date, time, price, member_id))
+                else:
+                    insert_booking = "INSERT INTO booking (memberID, attractionID, date, time, price) VALUES (%s, %s, %s, %s, %s)"
+                    cursor.execute(insert_booking, (member_id, attractionId, date, time, price))
+
+                con.commit()
+                return jsonify({"ok": True})
+
+            except jwt.ExpiredSignatureError:
+                return jsonify({
+                    "error": True,
+                    "message": "Token已過期"
+                }), 400
+            except jwt.InvalidTokenError as e:
+                return jsonify({
+                    "error": True,
+                    "message": f"Token無效: {str(e)}"
+                }), 400
+            except Exception as e:
+                return jsonify({
+                    "error": True,
+                    "message": f"伺服器內部錯誤: {str(e)}"
+                }), 500
+
+    return jsonify({
+        "error": True,
+        "message": "未登入系統，拒絕存取"
+    }), 403
+
+@app.route("/api/booking", methods=["DELETE"])
+def delete_trip():
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
+
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                user_id = decoded["data"]["id"]
+                cursor.execute('SELECT id FROM membership WHERE id = %s', (user_id,))
+                member_id = cursor.fetchone()[0]
+                cursor.execute('SELECT memberID FROM booking WHERE memberID = %s', (member_id,))
+                existing_booking = cursor.fetchone()
+
+                if existing_booking:
+                    delete_booking_query = "DELETE FROM booking WHERE memberId = %s"
+                    cursor.execute(delete_booking_query, (member_id,))
+
+                    con.commit()
+                    con.close()
+
+                    return jsonify({"ok": True})
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token expired"})
+            except jwt.DecodeError:
+                return jsonify({"error": "Token decoding failed"})
+            except Exception as e:
+                return jsonify({"error": str(e)})
+    return jsonify({"error": True, "message": "請按照情境提供對應的錯誤訊息"})
 
 
 app.run(host="0.0.0.0", port=3000)
