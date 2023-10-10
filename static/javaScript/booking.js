@@ -415,10 +415,10 @@ function onSubmit(event) {
   .then(response => response.json())
   .then(data => {
       console.log(data);
-      deleteBooking()
       const orderNumber = data.data.number
       const redirectURL = `/thankyou?number=${orderNumber}`;
-      window.location.href = redirectURL; 
+      window.location.href = redirectURL;
+      deleteBooking() 
   })
   .catch(error => {
       console.error('錯誤:', error);
