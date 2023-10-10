@@ -414,7 +414,11 @@ function onSubmit(event) {
    })
   .then(response => response.json())
   .then(data => {
-      console.log('後端返回的數據:', data);
+      console.log(data);
+      deleteBooking()
+      const orderNumber = data.data.number
+      const redirectURL = `/thankyou?number=${orderNumber}`;
+      window.location.href = redirectURL; 
   })
   .catch(error => {
       console.error('錯誤:', error);

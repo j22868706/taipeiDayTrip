@@ -551,7 +551,68 @@ def order_trip():
                 return jsonify({"error": str(e)})
     return jsonify({"error": True, "message": "請按照情境提供對應的錯誤訊息"})
 
+@app.route("/api/order/<int:orderNumber>", methods=["GET"])
+def show_trip(orderNumber):
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
 
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                if decoded:
+                    query = "SELECT * FROM ordersystem WHERE orderNum = %s"
+                    cursor.execute(query, (orderNumber,))
+                    order_data = cursor.fetchone()
+                    if order_data:
+                        attraction_id = order_data[3]
+                        query_attraction = "SELECT name, address, rownumber FROM attractions WHERE id = %s"
+                        cursor.execute(query_attraction, (attraction_id,))
+                        attraction_data = cursor.fetchone()
+                        if attraction_data:
+                            attractionRownumber = attraction_data[2]
+                            img_query = "SELECT imageUrl FROM attractionImages WHERE attractionRownumber = %s"
+                            cursor.execute(img_query, (attractionRownumber,))
+                            img_data = cursor.fetchall()
+                            image_url = img_data[0][0]                             
+                        order_info = {
+                            "number": order_data[1],
+                            "price": order_data[6],
+                            "trip": {
+                                "attraction": {
+                                    "id": order_data[3],
+                                    "name": attraction_data[0],
+                                    "address": attraction_data[1],
+                                    "image": image_url
+                            },
+                                "date": order_data[4],
+                                "time": order_data[5]
+                            },
+                            "contact": {
+                                "name": order_data[8],
+                                "email": order_data[7],
+                                "phone": order_data[9],
+                            },
+                            "status": order_data[10]
+                        }
+                        return jsonify({"data": order_info})
+                    else:
+                        return jsonify({"error": "訂單不存在"})
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token已過期"})
+            except jwt.InvalidTokenError:
+                return jsonify({"error": "無效的Token"})
+    
+    return jsonify({"error": "未提供有效的Token"})
 
 
 app.run(host="0.0.0.0", port=3000)
