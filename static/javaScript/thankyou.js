@@ -206,3 +206,11 @@ function submitSigninForm(signinEvent) {
     else
     window.location.href = "/booking";
     }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const token = localStorage.getItem("token");
+      if (!token) {
+          // 无令牌，执行页面重定向到首页
+          window.location.href = '/index.html'; // 或者其他首页的 URL
+      }
+  });
