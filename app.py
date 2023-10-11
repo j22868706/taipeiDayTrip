@@ -8,7 +8,7 @@ import json
 from collections import OrderedDict
 import jwt
 import datetime
-from datetime import datetime
+from datetime import datetime as dt_datetime 
 import requests
 app.debug = True
 
@@ -497,7 +497,7 @@ def order_trip():
                 contact_name = data['order']['contact']['name']
                 contact_email = data['order']['contact']['email']
                 contact_phone = data['order']['contact']['phone']
-                current_time = datetime.now().strftime('%Y%m%d%H%M%S')
+                current_time = dt_datetime.now().strftime('%Y%m%d%H%M%S')
                 order_num = current_time
                 
                 cursor.execute('SELECT * FROM ordersystem WHERE name = %s AND date = %s AND time = %s AND attractionId = %s', (contact_name, trip_date, trip_time, trip_attraction_id))

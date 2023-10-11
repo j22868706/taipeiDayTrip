@@ -75,10 +75,10 @@ function loginBlock() {
     }
   }
       
-      function submitSigninForm(signinEvent) {
+function submitSigninForm(signinEvent) {
     signinEvent.preventDefault();
       
-      const signinEmailInput = document.getElementById("signinEmail");
+    const signinEmailInput = document.getElementById("signinEmail");
     const signinPasswordInput = document.getElementById("signinPassword");
   
       if (signinEmailInput.value === "" || signinPasswordInput.value === "") {
@@ -111,7 +111,7 @@ function loginBlock() {
     }
       }
   
-      window.addEventListener('load', checkUserStatus);
+  window.addEventListener('load', checkUserStatus);
   
   function checkUserStatus() {
     const token = localStorage.getItem("token");
@@ -151,7 +151,7 @@ function loginBlock() {
   
   function logoutBlock() {
     localStorage.removeItem("token");  
-    window.location.reload();
+    returnIndex();
   }
   function returnIndex(){
     window.location.href = `/`;
@@ -198,3 +198,11 @@ function loginBlock() {
   }
   fetchNumber()
   
+  function bookingButton(){
+    const token = localStorage.getItem("token");
+    if (!token) {
+      loginBlock();
+    }
+    else
+    window.location.href = "/booking";
+    }
