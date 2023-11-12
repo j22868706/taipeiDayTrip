@@ -238,7 +238,7 @@ body{
     height: 200px;
   }
 .title0 {
-    font-size: 16px;
+    font-size: 25px;
     font-weight: 700;
     line-height: 13px;
     letter-spacing: 0em;
@@ -258,6 +258,11 @@ body{
     text-align: left;
     padding-left: 5px;
 }
+.attractionName0,
+.number0,
+.name0,
+.email0,
+.phone0,
 .date0,
 .time0,
 .price0,

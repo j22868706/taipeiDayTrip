@@ -8,6 +8,8 @@ import json
 from collections import OrderedDict
 import jwt
 import datetime
+from datetime import datetime as dt_datetime 
+import requests
 app.debug = True
 
 # Pages
@@ -465,6 +467,152 @@ def delete_trip():
             except Exception as e:
                 return jsonify({"error": str(e)})
     return jsonify({"error": True, "message": "請按照情境提供對應的錯誤訊息"})
+
+
+@app.route("/api/order", methods=["POST"])
+def order_trip():
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
+
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                data = request.get_json()
+                user_id = decoded["data"]["id"]
+                prime = data['prime']
+                price = data['order']['price'][0]  
+                trip_attraction_id = data['order']['trip']['attraction']['id'][0]                  
+                trip_date = data['order']['trip']['date'][0]  
+                trip_time = data['order']['trip']['time'][0]  
+                contact_name = data['order']['contact']['name']
+                contact_email = data['order']['contact']['email']
+                contact_phone = data['order']['contact']['phone']
+                current_time = dt_datetime.now().strftime('%Y%m%d%H%M%S')
+                order_num = current_time
+                
+                cursor.execute('SELECT * FROM ordersystem WHERE name = %s AND date = %s AND time = %s AND attractionId = %s', (contact_name, trip_date, trip_time, trip_attraction_id))
+                existing_order = cursor.fetchone()
+
+                if existing_order:
+                    return jsonify({"error": True, "message" :"訂單建立失敗，已存在相同訂單"})
+                else:
+                    cursor.execute('INSERT INTO ordersystem (orderNum, memberId, attractionId, date, time, price, email, name, phone, status) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)',
+                   (order_num, user_id, trip_attraction_id, trip_date, trip_time, price, contact_email, contact_name, contact_phone, 'Pending'))
+
+                    order_data = {
+                        "prime": prime,
+                        "partner_key": 'partner_b0OKh6UYc94AT4ThSiORUeEoiBJBNIsMofJjaVZlzN2N9nmP7vwLvQ8q',
+                        "merchant_id": 'j22868706_TAISHIN',	
+                        "details": "TaiPei Day Trip Booking",
+                        "amount": price,
+                        "cardholder": {
+                            "phone_number": contact_phone,
+                            "name": contact_name,
+                            "email": contact_email,
+                        },
+                    }
+                    headers = {
+                        "Content-Type": "application/json",
+                        "x-api-key": 'partner_b0OKh6UYc94AT4ThSiORUeEoiBJBNIsMofJjaVZlzN2N9nmP7vwLvQ8q',
+                    }
+                    url = "https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime"
+                    req = requests.post(url, headers=headers, json=order_data, timeout=30)
+                    status_code = req.json().get("status")                    
+                    if status_code == 0:
+                        cursor.execute('UPDATE ordersystem SET status = %s WHERE orderNum = %s', ('confirm', order_num))
+                        con.commit()
+                        con.close()
+
+                        success = {
+                            "data": {
+                                "number": order_num,
+                                "payment": {"status": status_code, "message": "付款成功"},
+                            }
+                        }
+                        return jsonify(success), 200
+                    else:
+                        return jsonify({"error": True, "message": req.json().get("msg")})
+                    
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token expired"})
+            except jwt.DecodeError:
+                return jsonify({"error": "Token decoding failed"})
+            except Exception as e:
+                return jsonify({"error": str(e)})
+    return jsonify({"error": True, "message": "請按照情境提供對應的錯誤訊息"})
+
+@app.route("/api/order/<int:orderNumber>", methods=["GET"])
+def show_trip(orderNumber):
+    con = mysql.connector.connect(
+        host="localhost",
+        user="root",
+        password="Montegomery@3303",
+        database="taipeiDayTrip"
+    )
+    cursor = con.cursor()
+    token = request.headers.get("Authorization")
+    secret_key = "My_secret_key"
+
+    if token:
+        token_parts = token.split()
+        if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
+            jwt_token = token_parts[1]
+            try:
+                decoded = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
+                if decoded:
+                    query = "SELECT * FROM ordersystem WHERE orderNum = %s"
+                    cursor.execute(query, (orderNumber,))
+                    order_data = cursor.fetchone()
+                    if order_data:
+                        attraction_id = order_data[3]
+                        query_attraction = "SELECT name, address, rownumber FROM attractions WHERE id = %s"
+                        cursor.execute(query_attraction, (attraction_id,))
+                        attraction_data = cursor.fetchone()
+                        if attraction_data:
+                            attractionRownumber = attraction_data[2]
+                            img_query = "SELECT imageUrl FROM attractionImages WHERE attractionRownumber = %s"
+                            cursor.execute(img_query, (attractionRownumber,))
+                            img_data = cursor.fetchall()
+                            image_url = img_data[0][0]                             
+                        order_info = {
+                            "number": order_data[1],
+                            "price": order_data[6],
+                            "trip": {
+                                "attraction": {
+                                    "id": order_data[3],
+                                    "name": attraction_data[0],
+                                    "address": attraction_data[1],
+                                    "image": image_url
+                            },
+                                "date": order_data[4],
+                                "time": order_data[5]
+                            },
+                            "contact": {
+                                "name": order_data[8],
+                                "email": order_data[7],
+                                "phone": order_data[9],
+                            },
+                            "status": order_data[10]
+                        }
+                        return jsonify({"data": order_info})
+                    else:
+                        return jsonify({"error": "訂單不存在"})
+            except jwt.ExpiredSignatureError:
+                return jsonify({"error": "Token已過期"})
+            except jwt.InvalidTokenError:
+                return jsonify({"error": "無效的Token"})
+    
+    return jsonify({"error": "未提供有效的Token"})
 
 
 app.run(host="0.0.0.0", port=3000)

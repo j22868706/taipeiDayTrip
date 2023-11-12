@@ -6,6 +6,8 @@
         <title>台北一日遊</title>
         <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/booking-layout.css') }}">
         <script src="{{ url_for('static', filename= 'javaScript/booking.js')}}"></script>
+        <script src="https://js.tappaysdk.com/sdk/tpdirect/v5.14.0"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     </head>
     <body>
         <header class="header">
@@ -87,14 +89,17 @@
                     <div id="payment-info" class="display-flex">
                         <form class="info-form-container">
                             <div class="text-title" style="margin-bottom: 20px;">信用卡付款資訊</div>
-                            <div class="text-content" style="margin-bottom: 15px;">卡片號碼：
-                                <input class="info-form-input" id="card-number" placeholder="**** **** **** ****"></input>
+                            <div class="text-content" style="margin-bottom: 15px;">
+                                <label for="unmber" style="margin-right: 10px;">卡片號碼：</label>
+                                <div class="form-control card-number info-form-input"></div>
                             </div>     
-                            <div class="text-content" style="margin-bottom: 15px;">過期時間：
-                                <input class="info-form-input" id="card-expiration-date" placeholder="MM/YY"></input>
+                            <div class="text-content" style="margin-bottom: 15px;">
+                                <label for="cardExpirationDate" style="margin-right: 10px;">過期時間：</label>
+                                <div class="form-control expiration-date info-form-input" id="tappay-expiration-date"></div>
                             </div>  
-                            <div class="text-content" style="margin-bottom: 15px;">驗證密碼：
-                                <input class="info-form-input" id="card-ccv" placeholder="CVV"></input>
+                            <div class="text-content" style="margin-bottom: 15px;">
+                                <label for="cardCcv" style="margin-right: 10px;">驗證密碼：</label>
+                                <div class="form-control ccv info-form-input"></div>
                             </div>  
                         </form>
                     </div>
@@ -104,7 +109,7 @@
                             <div style="margin-bottom: 22px; font-weight: bold;">總價：新台幣
                                 <span id= "total-cost" class="total-cost"></span> 元
                             </div>
-                            <div style="margin-bottom: 22px;" class="schedule-button">確認訂購並付款</div>
+                            <div id="booked" onclick="onSubmit(event)" style="margin-bottom: 22px;" class="schedule-button btn btn-default">確認訂購並付款</div>
                         </div>
                     </div>
                 </div>             
