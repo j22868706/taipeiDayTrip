@@ -10,7 +10,11 @@ import jwt
 import datetime
 from datetime import datetime as dt_datetime 
 import requests
+from dotenv import load_dotenv
+import os
+load_dotenv()
 app.debug = True
+
 
 # Pages
 @app.route("/")
@@ -31,10 +35,10 @@ def thankyou():
 def attractions():
     try:
         con = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Montegomery@3303",
-            database="taipeiDayTrip"
+            host= os.getenv("host"),
+            user= os.getenv("user"),
+            password= os.getenv("password"),
+            database= os.getenv("database")
         )
 
         cursor = con.cursor()
@@ -108,10 +112,10 @@ def attractions():
 def get_attraction(attractionId):
     try:
         con = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Montegomery@3303",
-            database="taipeiDayTrip"
+            host= os.getenv("host"),
+            user= os.getenv("user"),
+            password= os.getenv("password"),
+            database= os.getenv("database")
         )
 
         cursor = con.cursor()
@@ -164,10 +168,10 @@ def get_attraction(attractionId):
 def mrts():
     try:    
         con = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Montegomery@3303",
-            database="taipeiDayTrip"
+            host= os.getenv("host"),
+            user= os.getenv("user"),
+            password= os.getenv("password"),
+            database= os.getenv("database")
         )
 
         cursor = con.cursor()
@@ -197,10 +201,10 @@ def mrts():
 @app.route('/api/user', methods=["POST"])
 def signup():
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+            host= os.getenv("host"),
+            user= os.getenv("user"),
+            password= os.getenv("password"),
+            database= os.getenv("database")
     )
     signupName = request.form["signupName"]
     signupEmail = request.form["signupEmail"]
@@ -232,10 +236,10 @@ def signup():
 def signin():
     try:
         con = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="Montegomery@3303",
-            database="taipeiDayTrip"
+            host= os.getenv("host"),
+            user= os.getenv("user"),
+            password= os.getenv("password"),
+            database= os.getenv("database")
         )
         signinEmail = request.form["signinEmail"]
         signinPassword = request.form["signinPassword"]
@@ -251,8 +255,8 @@ def signin():
                    "email": signinRow[2]
                 }
                 expiration_time = datetime.datetime.utcnow() + datetime.timedelta(days=7)
-                secret_key = "My_secret_key"
-                token = jwt.encode({"data": user_info}, secret_key, algorithm="HS256")
+                secret_key = os.getenv("secret_key")
+                token = jwt.encode({"data": user_info, "exp": expiration_time}, secret_key, algorithm="HS256")
                 return jsonify({"token": token})
         return jsonify({"error":True, "message":"電子郵件或密碼錯誤"}), 400 
     except Exception as e:
@@ -265,7 +269,7 @@ def signin():
 def authenticate_token(f):
     def decorated(*args, **kwargs):
         token = request.headers.get("Authorization")
-        secret_key = "My_secret_key"
+        secret_key = os.getenv("secret_key")
         if token is None:
             return jsonify(data=None)
         
@@ -277,7 +281,6 @@ def authenticate_token(f):
         
         try:
             decode_token = jwt.decode(jwt_token, secret_key, algorithms=["HS256"])
-            print(decode_token)
             token_user_info = decode_token.get("data", None)
             if token_user_info is None:
                 return jsonify(data=None)
@@ -300,15 +303,14 @@ def user_auth(current_user):
 @app.route("/api/booking", methods=["GET"])
 def get_trip():
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+        host= os.getenv("host"),
+        user= os.getenv("user"),
+        password= os.getenv("password"),
+        database= os.getenv("database")
     )
     cursor = con.cursor()
     token = request.headers.get("Authorization")
-    secret_key = "My_secret_key"
-
+    secret_key = os.getenv("secret_key")
     if token:
         token_parts = token.split()
         if len(token_parts) == 2 and token_parts[0].lower() == "bearer":
@@ -369,15 +371,14 @@ def get_trip():
 @app.route("/api/booking", methods=["POST"])
 def update_trip():
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+        host= os.getenv("host"),
+        user= os.getenv("user"),
+        password= os.getenv("password"),
+        database= os.getenv("database")
     )
     cursor = con.cursor()
     token = request.headers.get("Authorization")
-    secret_key = "My_secret_key"
-
+    secret_key =os.getenv("secret_key")
     trip_reservation = request.get_json()
     attractionId = trip_reservation["attractionId"]
     date = trip_reservation["date"]
@@ -431,14 +432,14 @@ def update_trip():
 @app.route("/api/booking", methods=["DELETE"])
 def delete_trip():
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+        host= os.getenv("host"),
+        user= os.getenv("user"),
+        password= os.getenv("password"),
+        database= os.getenv("database")
     )
     cursor = con.cursor()
     token = request.headers.get("Authorization")
-    secret_key = "My_secret_key"
+    secret_key = os.getenv("secret_key")
 
     if token:
         token_parts = token.split()
@@ -472,10 +473,10 @@ def delete_trip():
 @app.route("/api/order", methods=["POST"])
 def order_trip():
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+        host= os.getenv("host"),
+        user= os.getenv("user"),
+        password= os.getenv("password"),
+        database= os.getenv("database")
     )
     cursor = con.cursor()
     token = request.headers.get("Authorization")
@@ -511,9 +512,9 @@ def order_trip():
 
                     order_data = {
                         "prime": prime,
-                        "partner_key": 'partner_b0OKh6UYc94AT4ThSiORUeEoiBJBNIsMofJjaVZlzN2N9nmP7vwLvQ8q',
-                        "merchant_id": 'j22868706_TAISHIN',	
-                        "details": "TaiPei Day Trip Booking",
+                        "partner_key": os.getenv("partner_key"),
+                        "merchant_id": os.getenv("merchant_id"),	
+                        "details": os.getenv("details"),
                         "amount": price,
                         "cardholder": {
                             "phone_number": contact_phone,
@@ -539,6 +540,7 @@ def order_trip():
                                 "payment": {"status": status_code, "message": "付款成功"},
                             }
                         }
+                        print(success)
                         return jsonify(success), 200
                     else:
                         return jsonify({"error": True, "message": req.json().get("msg")})
@@ -554,14 +556,14 @@ def order_trip():
 @app.route("/api/order/<int:orderNumber>", methods=["GET"])
 def show_trip(orderNumber):
     con = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="Montegomery@3303",
-        database="taipeiDayTrip"
+        host= os.getenv("host"),
+        user= os.getenv("user"),
+        password= os.getenv("password"),
+        database= os.getenv("database")
     )
     cursor = con.cursor()
     token = request.headers.get("Authorization")
-    secret_key = "My_secret_key"
+    secret_key = os.getenv("secret_key")
 
     if token:
         token_parts = token.split()
