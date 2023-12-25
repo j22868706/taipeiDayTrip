@@ -14,7 +14,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
  - integrate features to manage order and membership systems.
 
 ## Built With
-[![CSS](https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png)](https://example.com/css)
+* [![CSS](https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/css/css.png)](https://example.com/css)
 
 ## Demo <a name = "demo"></a>
 * **Website URL** : [Taipei-Day-Trip](http://44.196.136.245:3000/))
