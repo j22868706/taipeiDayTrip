@@ -7,7 +7,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 ## Table of Contents
 
  - [Built With](#built_with)
- - 
+ - [Architecture Diagram](#architecture_diagram)
  - [Demo](#demo)
  - [Furture of Scope](#future_scope)
 
@@ -27,6 +27,9 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 <a href="https://www.mysql.com">
   <img src="https://raw.githubusercontent.com/docker-library/docs/c408469abbac35ad1e4a50a6618836420eb9502e/mysql/logo.png" alt="MySQL" width="100">
 </a>
+
+## Architecture Diagram <a name = "architecture_diagram">
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Architecture%20Diagram.png" alt="architecture diagram" width="200" height ="200">
 
 ## Demo <a name = "demo"></a>
 * **Website URL** : [Taipei-Day-Trip](http://44.196.136.245:3000/))
