@@ -6,12 +6,10 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 ## Table of Contents
 
- - [Furture of Scope](#future_scope)
  - [Built With](#built_with)
+ - 
  - [Demo](#demo)
-
-## Future of Scope <a name= "future_scope"></a>
- - integrate features to manage order and membership systems.
+ - [Furture of Scope](#future_scope)
 
 ## Built With <a name= "built_with"></a>
 <a href="https://example.com/html">
@@ -30,8 +28,6 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
   <img src="https://raw.githubusercontent.com/docker-library/docs/c408469abbac35ad1e4a50a6618836420eb9502e/mysql/logo.png" alt="MySQL" width="100">
 </a>
 
-
-
 ## Demo <a name = "demo"></a>
 * **Website URL** : [Taipei-Day-Trip](http://44.196.136.245:3000/))
 * **Test Account** : 
@@ -48,3 +44,5 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
   | Expiration Date | 01/45 |
   | CVV | 123 |
 
+## Future of Scope <a name= "future_scope"></a>
+ - integrate features to manage order and membership systems.
