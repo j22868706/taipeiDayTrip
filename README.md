@@ -26,6 +26,9 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 <a href="https://www.mysql.com">
   <img src="https://raw.githubusercontent.com/docker-library/docs/c408469abbac35ad1e4a50a6618836420eb9502e/mysql/logo.png" alt="MySQL" width="100">
 </a>
+<a href="https://flask.palletsprojects.com/en/3.0.x/">
+  <img src="https://repository-images.githubusercontent.com/596892/cc2c69ec-9251-4b33-8283-b86a8659c9cb" alt="Flask" width="100">
+</a>
 
 
 ## Demo <a name = "demo"></a>
