@@ -60,7 +60,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 ### Booking system
 
-<img src="">
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/booking%20(1).gif">
 
 ## Future of Scope <a name= "future_scope"></a>
  - integrate features to manage order and membership systems.
