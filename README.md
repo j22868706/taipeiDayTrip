@@ -54,5 +54,13 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 ## Features <a name= "features"></a>
 
+### Infinite Scroll
+
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Infinite%20Scroll.gif" >
+
+### Booking system
+
+<img src="">
+
 ## Future of Scope <a name= "future_scope"></a>
  - integrate features to manage order and membership systems.
