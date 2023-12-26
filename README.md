@@ -12,6 +12,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
  - [Demo](#demo)
  - [Features](#features)
  - [Furture of Scope](#future_scope)
+ - [Contact](#contact)
 
 ## Built With <a name= "built_with"></a>
 <a href="https://example.com/html">
@@ -77,7 +78,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 ## Future of Scope <a name= "future_scope"></a>
  - integrate features to manage order and membership systems.
 
-## Contact
+## Contact <a name="contact">
 
  - Name:  Hungchih Lee
  - Email: j22868706@gmail.com
