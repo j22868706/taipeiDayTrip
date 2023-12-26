@@ -64,7 +64,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 ### Using JWT (JSON Web Tokens) to authorize users and protect API routes
 
-<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Authentication.gif" >
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Authentication.gif" width="100%" >
 
 ### Booking system
 
