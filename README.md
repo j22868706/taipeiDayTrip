@@ -10,6 +10,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
  - [Architecture Diagram](#architecture_diagram)
  - [Database Schema](#database_schema)
  - [Demo](#demo)
+ - [Features](#features)
  - [Furture of Scope](#future_scope)
 
 ## Built With <a name= "built_with"></a>
@@ -50,6 +51,8 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
   | Card Number | 4242-4242-4242-4242 |
   | Expiration Date | 01/45 |
   | CVV | 123 |
+
+## Features <a name= "features"></a>
 
 ## Future of Scope <a name= "future_scope"></a>
  - integrate features to manage order and membership systems.
