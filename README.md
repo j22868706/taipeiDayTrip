@@ -29,7 +29,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 </a>
 
 ## Architecture Diagram <a name = "architecture_diagram">
-<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Architecture%20Diagram.png" alt="architecture diagram" width="200" height ="200">
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Architecture%20Diagram.png" alt="architecture diagram" width="500" height ="500">
 
 ## Demo <a name = "demo"></a>
 * **Website URL** : [Taipei-Day-Trip](http://44.196.136.245:3000/))
