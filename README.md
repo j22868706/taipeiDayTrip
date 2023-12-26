@@ -58,9 +58,18 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 <img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Infinite%20Scroll.gif" >
 
+### Slideshow / Carousel
+
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Slideshow%20_%20Carousel%20(1).gif">
+
 ### Booking system
 
 <img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/booking%20(1).gif">
+
+### Implemented payment request API using TapPay
+
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Third%20party%20online%20payment%20-%20TapPay%20(1).gif)">
+
 
 ## Future of Scope <a name= "future_scope"></a>
  - integrate features to manage order and membership systems.
