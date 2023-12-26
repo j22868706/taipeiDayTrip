@@ -79,6 +79,6 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
 ## Contact
 
-Name - Hungchih Lee
-Email - j22868706@gmail.com
+ - Name:  Hungchih Lee
+ - Email: j22868706@gmail.com
 
