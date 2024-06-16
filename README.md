@@ -32,7 +32,7 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 </a>
 
 ## Architecture Diagram <a name = "architecture_diagram">
-<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/Architecture%20Diagram.png" alt="architecture diagram" width="500" height ="500">
+<img src="https://github.com/j22868706/taipeiDayTrip/blob/main/static/images/taipeidaytrip%20Diagram.jpg" alt="architecture diagram" width="500" height ="500">
 
 ## Database Schema <a name = "database_schema">
 <img src="https://github.com/j22868706/taipeiDayTrip/blob/main/demo/ER%20diagram.png" alt="database schema" width = "500" height = "500" >
