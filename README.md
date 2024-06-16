@@ -43,8 +43,8 @@ Taipei Day Trip is an e-commerce travel platform offering over 50 attractions in
 
   |-|-|
   | ------ | ------ |
-  | E-mail | test01@gmail.com |
-  | Password | test01 |
+  | E-mail | test1@gmail.com |
+  | Password | test |
 * **Testing Credit Card Information - TapPay**:
 
   |-|-|
